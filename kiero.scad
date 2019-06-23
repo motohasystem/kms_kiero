@@ -1,21 +1,46 @@
 use <modules_kiero.scad>
 
+// カメラ位置の初期化（アニメーションする際はコメントアウト）
+$vpr = [45, 0, 45];
+$vpd = 4000;
+
+// モデルを指定 (0:バクテリア、 1:ベランダ)
+modelNumber = 0;
+
 // キエーロのサイズを指定
-boxwidth = 1000;    // 幅
-boxheight = 400;    // 高さ
-boxdepth = 600;     // 奥行き
 
-// 各種パラメータ
-thickness = 12;     // 使用したい板厚
-leg = 100;          // 足の（杭）の長さ
-pillar=40;          // 角材の太さ
-backheight = 100;   // 背面の足の高さ
+// 本体の横幅
+boxwidth = 1000;
+
+// 本体の高さ
+boxheight = 200;
+
+// 本体の奥行き
+boxdepth = 500;     
 
 
-// 接地型キエーロ
-//draw_kieiro(boxwidth, boxdepth, boxheight, thickness, leg, pillar, backheight);
+// ***** その他のパラメータ *****
 
-// 移動型キエーロ
-draw_beranda(boxwidth, boxdepth, boxheight, thickness, leg, pillar, backheight);
+// 使用する板厚
+thickness = 15;
 
+// 足の（杭）の長さ
+leg = 100;
+
+// 角材の太さ
+pillar=40;
+
+// 背面の足の高さ
+backheight = 150;
+
+
+if(modelNumber==0){
+    // 接地型キエーロを作る
+    translate([0,0,-leg])
+    draw_kieiro(boxwidth, boxdepth, boxheight, thickness, leg, pillar, backheight);
+}
+else if(modelNumber == 1){
+    // 可搬型キエーロを作る
+    draw_beranda(boxwidth, boxdepth, boxheight, thickness, leg, pillar, backheight);
+}
 
