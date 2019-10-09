@@ -4,25 +4,25 @@ use <modules_kiero.scad>
 $vpr = [45, 0, 45];
 $vpd = 4000;
 
-// モデルを指定 (0:バクテリア、 1:ベランダ)
-modelNumber = 0;
+// モデルを指定 (0:バクテリア、 1:ベランダ, 2:強化型バクテリア)
+modelNumber = 2;
 
 // キエーロのサイズを指定
 
 // 本体の横幅
-boxwidth = 1000;
+boxwidth = 900;
 
 // 本体の高さ
-boxheight = 200;
+boxheight = 500;
 
 // 本体の奥行き
-boxdepth = 500;     
+boxdepth = 600;     
 
 
 // ***** その他のパラメータ *****
 
 // 使用する板厚
-thickness = 15;
+thickness = 18;
 
 // 足の（杭）の長さ
 leg = 100;
@@ -42,5 +42,9 @@ if(modelNumber==0){
 else if(modelNumber == 1){
     // 可搬型キエーロを作る
     draw_beranda(boxwidth, boxdepth, boxheight, thickness, leg, pillar, backheight);
+}
+else if(modelNumber == 2){
+    // 設置型キエーロ強化タイプを作る
+    draw_enhanced(boxwidth, boxdepth, boxheight, thickness, leg, pillar, backheight);
 }
 

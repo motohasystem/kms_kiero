@@ -1,9 +1,11 @@
 
 module draw_kieiro(width, depth, height, thickness, leg, pillar, backheight){
     
+    // 本体部分
     kieiro_body(width, depth, height, thickness, leg, pillar, backheight);
 
-    kieiro_hatch(width - thickness*2, depth, height, thickness, leg, pillar, backheight);
+    // フタ部分
+    kieiro_hatch_bolt(width - thickness*2, depth, height, thickness, leg, pillar, backheight);
 }
 
 module draw_beranda(width, depth, height, thickness, leg, pillar, backheight){
@@ -14,42 +16,110 @@ module draw_beranda(width, depth, height, thickness, leg, pillar, backheight){
 }
 
 
+module draw_enhanced(width, depth, height, thickness, leg, pillar, backheight){
+
+    enhanced_body(width, depth, height, thickness, leg, pillar, backheight);
+    beranda_hatch(width-thickness*2, depth+pillar+pillar+thickness, height+leg, pillar, thickness, backheight);
+
+}
+
+
+
+// キエーロ本体
 module kieiro_body(width, depth, height, thickness, leg, pillar, backheight){
     echo("---- body ----");
     tk = thickness;
     p = pillar;
     
+    // 正面側板
     translate([0, tk, leg])
     rotate([90, 0, 0])
     board([width, height, tk]);
 
+    // 側面側板L
     translate([0, tk, leg])
     rotate([90, 0, 90])
     board([depth, height, tk]);
 
+    // 背面側板
     translate([0, tk*2 + depth, leg])
     rotate([90, 0, 0])
     board([width, height,tk]);
 
+    // 側面側板R
     translate([width - tk, tk, leg])
     rotate([90, 0, 90])
     board([depth, height, tk]);
 
-
+    // 脚 左奥
     translate([tk, tk+depth-p, 0])
     pillar(p, leg + height + backheight);
 
+    // 脚 右奥
     translate([width-tk-p, depth - tk - tk, 0])
     pillar(p, leg + height + backheight);
 
-
+    // 脚 左手前
     translate([tk, tk, 0])
     pillar(p, leg + height);
 
+    // 脚 右手前
     translate([width-tk-p, tk, 0])
     pillar(p, leg + height);
 
 }
+
+module kieiro_hatch_bolt(width, depth, height, thickness, leg, pillar, backheight){
+    p = pillar;
+    tk = thickness;
+    hd = sqrt(pow(backheight,2) + pow(depth,2));   // hatch depth
+
+
+    motion_range = 180 - atan((depth-pillar)/(backheight)); // 蓋の可動域
+
+    echo("---- roof ----");
+
+    translate([width + tk, depth - tk*2, height+leg+backheight])
+    rotate([ vibrate($t, motion_range), 0, 180])
+    translate([0, 0, 0]){
+        rotate([-90, 0, 0]){
+            // フタ 左右の梁
+           translate([0, 0, -p*2]){
+               translate([p, 0, 0])
+               pillar(p, hd + p*2);
+               
+               translate([width-p-p, 0, 0])
+               pillar(p, hd+ p*2);
+           }
+           
+           // フタ 中央のハリ
+           translate([(width-p)/2, 0, 0])
+           pillar(p, hd);
+               
+           
+        }
+        
+        // フタ 前奥のハリ
+        rotate([0, 90, 0]){
+            translate([-p, 0, 0]){
+                // 奥
+                translate([0, 0, 0])
+                pillar(p, width);
+
+                // 手前
+                translate([0, hd-p, 0])
+                pillar(p, width);
+            }
+        }
+
+        // 天板波板
+        margin = 0.2;
+        color("snow", 0.8)
+        translate([-width*margin/2, -hd*margin/2, p])
+        roof([width*(1+margin), hd*(1+margin), tk]);
+    }
+}
+
 
 module kieiro_hatch(width, depth, height, thickness, leg, pillar, backheight){
     p = pillar;
@@ -63,7 +133,7 @@ module kieiro_hatch(width, depth, height, thickness, leg, pillar, backheight){
     //echo(vibrate($t, motion_range));
     echo("---- roof ----");
 
-    translate([width - tk, depth - tk*2, height+leg+backheight])
+    translate([width + tk, depth - tk*2, height+leg+backheight])
     rotate([ vibrate($t, motion_range), 0, 180])
     translate([0, 0, p]){
         rotate([-90, 0, 0]){
@@ -199,10 +269,10 @@ module beranda_hatch(width, depth, height, pillar, thickness, backheight){
                 }
                 
                 rotate([0, 90, 0]){
-                    translate([-p, 0, 0])
+                    translate([p, p*4, 0])
                     pillar(p, width);
 
-                    translate([-p, hd-p, 0])
+                    translate([p, hd-p*2, 0])
                     pillar(p, width);
                 }
 
@@ -216,19 +286,89 @@ module beranda_hatch(width, depth, height, pillar, thickness, backheight){
 }
 
 
+module enhanced_body(width, depth, height, thickness, leg, pillar, backheight){
+    echo("---- body ----");
+    
+    tk = thickness;
+    p = pillar;
+
+
+    // front side board
+    translate([tk, tk+tk+p, leg])
+    rotate([90, 0, 0])
+    board([width-tk*2, height, tk]);
+
+    translate([tk+p, tk, 0])
+    pillar(p, leg + height);
+
+    translate([width-tk-p-p, tk, 0])
+    pillar(p, leg + height);
+
+    //translate([tk, tk+tk+p, leg])
+    //rotate([90, 0, 90])
+    //pillar(p, width-tk*2);
+
+
+    // back side board
+    translate([tk, depth-pillar+tk, leg])
+    rotate([90, 0, 0])
+    board([width-tk*2, height,tk]);
+
+    translate([tk+p, tk+depth-p, 0])
+    pillar(p, leg + height + backheight);
+
+    translate([width-tk-p-p, depth - tk - tk, 0])
+    pillar(p, leg + height + backheight);
+
+    //translate([tk, depth-p-p, leg])
+    //rotate([90, 0, 90])
+    //pillar(p, width-tk*2);
+
+
+    // left side board
+		rotate([0, 0, 0])
+
+    translate([0, tk, leg])
+    rotate([90, 0, 90])
+    board([depth, height, tk]);
+
+    translate([tk, tk+depth-p, 0])
+    pillar(p, leg + height);
+
+    translate([tk, tk, 0])
+    pillar(p, leg + height);
+
+    // right side board
+    translate([width - tk, tk, leg])
+    rotate([90, 0, 90])
+    board([depth, height, tk]);
+
+    translate([width-tk-p, tk, 0])
+    pillar(p, leg + height);
+
+    translate([width-tk-p, depth - tk - tk, 0])
+    pillar(p, leg + height);
+}
+
+
 
 module board(array){
-    echo("board : ", array[0], array[1], array[2]);
+    echo(str("板（ 厚さ:" , round(array[2]),  "mm, ヨコ:" ,  round(array[0]), "mm, タテ:", round(array[1]), "mm ）"));
     cube(array);
+    
+    translate([-200, 0, 100])
+    rotate([0, 270, 270])
+    color("black") text(array[1], size=100);
+
 }
 
 module pillar(width, height){
-    echo("pillar : ", width, height);
+    echo(str("角材（長さ", round(height),  "mm, 一辺:", round(width), "mm ）"));
     cube([width, width, height]);
 }
 
 module roof(array){
-    echo("roof : ", array[0], array[1], array[2]);
+    echo(str("屋根（ 厚さ:" , round(array[2]),  "mm, ヨコ:" ,  round(array[0]), "mm, タテ:", round(array[1]), "mm ）"));
     cube(array);
 }
 
