@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>接地型キエーロ組立説明書</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+  width: 80%;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 50%;
+	max-height: 50%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	font-size: 24pt;
+}
+
+h2 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	font-size: 20pt;
+}
+
+h3 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	font-size: 18pt;
+}
+
+
+h1, h2, h3 {
+	font-weight: bold;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<h1 id="%E6%8E%A5%E5%9C%B0%E5%9E%8B%E3%82%AD%E3%82%A8%E3%83%BC%E3%83%AD%E7%B5%84%E7%AB%8B%E8%AA%AC%E6%98%8E%E6%9B%B8">接地型キエーロ組立説明書</h1>
+<p><img src="2019-10-07-16-27-54.png" alt="全体図"></p>
+<p>地面に直接配置するタイプのキエーロを作成します。</p>
+<p>まず本体を先に組み立てます。次に屋根の部分を作成します。</p>
+<p><img src="2019-10-07-16-43-59.png" alt="屋根と赤ボディ"></p>
+<h2 id="%E3%81%9D%E3%82%8C%E3%81%9E%E3%82%8C%E3%81%AE%E3%83%91%E3%83%BC%E3%83%84%E3%81%AE%E8%AA%AC%E6%98%8E">それぞれのパーツの説明</h2>
+<h3 id="%E6%9C%AC%E4%BD%93%E3%83%91%E3%83%BC%E3%83%84%E3%81%AE%E8%AA%AC%E6%98%8E">本体パーツの説明</h3>
+<p><img src="2019-10-07-16-44-46.png" alt="ボディのみ"></p>
+<ul>
+<li>
+<p>角材（長）2本</p>
+<ul>
+<li>本体の背面側で屋根と繋がる柱になります</li>
+</ul>
+</li>
+<li>
+<p>角材（短）6本</p>
+<ul>
+<li>地面に埋まる足になります</li>
+</ul>
+</li>
+<li>
+<p>杉板（長）2セット</p>
+<ul>
+<li>前面と背面を構成します。</li>
+<li>24cm幅の杉板を上下につなぎ合わせて使用します。</li>
+</ul>
+</li>
+<li>
+<p>杉板（短）2セット</p>
+<ul>
+<li>左面と右面を構成します。</li>
+<li>24cm幅の杉板を上下につなぎ合わせて使用します。</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E5%B1%8B%E6%A0%B9%E3%83%91%E3%83%BC%E3%83%84%E3%81%AE%E8%AA%AC%E6%98%8E">屋根パーツの説明</h3>
+<p><img src="2019-10-07-16-39-04.png" alt="屋根パーツ"></p>
+<ul>
+<li>
+<p>角材（長）2本</p>
+<ul>
+<li>正面から見て枠のヨコ向き部分を構成します</li>
+</ul>
+</li>
+<li>
+<p>角材（短）3本</p>
+<ul>
+<li>正面から見て枠をタテ向き部分を構成します</li>
+</ul>
+</li>
+<li>
+<p>ポリカ波板 1セット</p>
+<ul>
+<li>何枚か張り合わせて屋根を構成します。</li>
+<li>クリアのプラスチック素材です。</li>
+<li>屋根を閉じたときに溝の向きが縦になるように取り付けましょう。</li>
+</ul>
+</li>
+</ul>
+<h3 id="%E3%81%9D%E3%81%AE%E4%BB%96%E3%81%AE%E9%87%91%E5%85%B7">その他の金具</h3>
+<ul>
+<li>
+<p>ボルト＆蝶ナット</p>
+<p><img src="ボルト＆蝶ナット.jpg" alt="ボルト＆蝶ナット"></p>
+<ul>
+<li>本体と屋根を連結させます。</li>
+<li>本体背面の角材（長）と、屋根側面の角材（長）にボルトが通るサイズの穴を貫通させましょう。</li>
+<li>台風や嵐が予想されるときはボルトを抜いて屋根を取り外しておいて下さい。</li>
+
+</ul>
+</li>
+<li>
+<p>あおり止め</p>
+<p><img src="あおり止め.jpg" alt="あおり止め"></p>
+<ul>
+	<li>屋根が風で開かないように、本体につなぎとめる役割をします。</li>
+	<li>重みでロックが掛かる向きに取り付けて下さい。</li>
+</ul>
+</li>
+<li>
+<p>傘釘</p>
+<p><img src="傘釘.jpg" alt="傘釘"></p>
+<ul>
+<li>ポリカ波板を屋根に固定する専用の釘です。</li>
+<li>必ず、ポリカ波板にはドリルで下穴を開けてから傘釘を打ちつけて下さい。</li>
+<li>傘釘はハンマーで打ちつけることができます。</li>
+</ul>
+</li>
+</ul>
+<h2 id="%E6%9C%AC%E4%BD%93%E3%82%92%E7%B5%84%E3%81%BF%E7%AB%8B%E3%81%A6%E3%82%8B">本体を組み立てる</h2>
+<p>まずは両側面のパーツを組み立てましょう。</p>
+<p><img src="2019-10-07-16-58-25.png" alt="ボディ - 赤レフト">
+<img src="2019-10-07-16-56-19.png" alt="ボディ - 左面パーツ"></p>
+<p>板に角材を固定していきます。</p>
+<p><img src="2019-10-07-16-59-05.png" alt="ボディ - 赤ライト">
+<img src="2019-10-07-16-57-05.png" alt="ボディ - 右面パーツ"></p>
+<p>左右の側面パーツを組み立てたら、次に前後面のパーツを組み立てます。</p>
+<p>図面を見るとわかるように、前面パーツでは脚となる角材を板の端から角材一本分をずらして固定します。</p>
+<p><img src="2019-10-07-16-46-11.png" alt="ボディ - 赤フロント">
+<img src="2019-10-07-16-53-00.png" alt="ボディ - 前面パーツ"></p>
+<p>後面パーツも同様に、板の橋から一本分ずらした位置に固定します。また、後面パーツは角材が上下に飛び出すように取り付けます。足の長さを左右側面パーツに合わせて固定しましょう。</p>
+<p><img src="2019-10-07-16-46-57.png" alt="ボディ - 赤バック">
+<img src="2019-10-07-16-52-27.png" alt="ボディ - 背面パーツ"></p>
+<h2 id="%E5%B1%8B%E6%A0%B9%E3%82%92%E7%B5%84%E3%81%BF%E7%AB%8B%E3%81%A6%E3%82%8B">屋根を組み立てる</h2>
+<p>屋根の組み立てで注意する点は、本体への取り付け部分です。屋根パーツを組み立てるときに、本体背面の柱と同じ幅になるように組み立てて下さい。</p>
+<p><img src="2019-10-07-16-39-04.png" alt="屋根パーツ"></p>
+<p>交差部分にドリルで穴を開けて、ボルトと蝶ナットで取り付けます。</p>
+<p><img src="2019-10-07-16-38-07.png" alt="赤屋根とボディ"></p>
+<h2 id="%E3%83%9D%E3%83%AA%E3%82%AB%E6%B3%A2%E6%9D%BF%E3%82%92%E8%A3%85%E7%9D%80%E3%81%99%E3%82%8B">ポリカ波板を装着する</h2>
+<p>屋根パーツに、ポリカ波板を傘釘で取り付けます。</p>
+<ol>
+<li>溝に沿って雨が流れ落ちる向きで、ポリカ波板を屋根パーツに乗せます。</li>
+<li>傘釘を打ち込む場所にサインペンでマーキングをします。</li>
+<li>マーキングした位置にドリルで下穴をあけます。</li>
+<li>屋根パーツに傘釘を打ち込み、波板を固定します。</li>
+</ol>
+<p><img src="2019-10-11-09-47-29.png" alt=""></p>
+<p>さいごにあおり止めを取り付けて完成です。おつかれさまでした。</p>
+<h1 id="%E6%B3%A8%E6%84%8F%E7%82%B9">注意点</h1>
+<ul>
+<li>杉板や角材はそのままだと地面に触れている箇所から腐食していきます。表面処理は焼き杉や防腐塗料などお好みに応じて施して下さい。</li>
+<li>台風など強い風が予想されるときは屋根を取り外しておいて下さい。</li>
+<li>生ゴミを投入される際は細かく刻んでおくと消化が促進されます。</li>
+<li>こちらの<a href="https://youtu.be/KfDHaCltZJY">Youtube動画</a>を参考にしてください。</li>
+</ul>
+
+<h2>キエーロに生ゴミを投入します。 - Youtube</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/KfDHaCltZJY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<div>
+<p>倍速版（お急ぎの方はこちらをどうぞ）</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9xv6FsCUWjc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+<h2></h2>
+<ul>
+<li>＊『キエーロ』『バクテリアdeキエーロ』は考案者である松本信夫さんの登録商標です</li>
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />この 作品 は <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">クリエイティブ・コモンズ 表示 - 継承 4.0 国際 ライセンス</a>の下に提供されています。
+
+
+</body>
+</html>
