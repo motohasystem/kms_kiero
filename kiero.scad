@@ -10,10 +10,10 @@ modelNumber = 2;
 // キエーロのサイズを指定
 
 // 本体の横幅
-boxwidth = 1100;
+boxwidth = 1000;
 
 // 本体の奥行き
-boxdepth = 350;
+boxdepth = 500;
 
 // 本体の高さ
 boxheight = 480;
