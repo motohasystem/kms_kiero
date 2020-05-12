@@ -13,7 +13,7 @@ modelNumber = 2;
 boxwidth = 1000;
 
 // 本体の奥行き
-boxdepth = 500;
+boxdepth = 600;
 
 // 本体の高さ
 boxheight = 480;

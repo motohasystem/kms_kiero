@@ -255,30 +255,32 @@ module beranda_hatch(width, depth, height, pillar, thickness, backheight){
         rotate([ vibrate($t, motion_range), 0, 180]){
             translate([0, tk-p*2, 0]){
 
+                // vertical beams
                 rotate([-90, 0, 0]){
-                   translate([0, 0, 0]){
-                       pillar(p, hd);
+                   translate([0, 0,  - p*2]){
+                       pillar(p, hd + p*2);
                        
                        translate([(width-p)/2, 0, 0])
-                       pillar(p, hd);
+                       pillar(p, hd + p*2);
                        
                        translate([width-p, 0, 0])
-                       pillar(p, hd);
+                       pillar(p, hd + p*2);
                    }
                    
                 }
-                
-                rotate([0, 90, 0]){
-                    translate([p, p*4, 0])
+                // horizontal beams
+                #rotate([0, 90, 0]){
+                    translate([-p, -p*2, 0])
                     pillar(p, width);
 
-                    translate([p, hd-p*2, 0])
+                    translate([-p, hd-p*2, 0])
                     pillar(p, width);
                 }
 
+                // 波板
                 margin = 0.2;
                 color("snow", 0.8)
-                translate([-width*margin/2, -hd*margin/2, p])
+                translate([-width*margin/2, -hd*margin/2 - p, p])
                 roof([width*(1+margin), hd*(1+margin), tk]);
             }
         }
