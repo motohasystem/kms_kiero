@@ -1,7 +1,8 @@
 # ケンさんにオーダーするリストを作成する
+# 板材の計算ができていないので見積もりの際は注意して作り直すこと。
 
 
-import os
+import os, sys
 import re
 import math
 
@@ -54,6 +55,9 @@ class Pillar(Fabric):
     self.square = int(match.group(2))
 
   def toString(self):
+    return self.__str__()
+
+  def __str__(self):
     return "柱 長さ%d, 一辺%d" % (self.length, self.square)
 
   def rounding(self):
@@ -79,6 +83,9 @@ class Board(Fabric):
       self.width = edge1
 
   def toString(self):
+    return self.__str__()
+
+  def __str__(self):
     return "板 厚さ%d, 横幅%d, 縦幅:%d" % (self.thickness, self.width, self.length)
 
   def rounding(self):
@@ -92,6 +99,9 @@ class Roof(Board):
     super().__init__(str, name, regex)
 
   def toString(self):
+    return self.__str__()
+
+  def __str__(self):
     return "屋根 横幅%d, 縦幅:%d" % (self.width, self.length)
 
 
@@ -184,6 +194,19 @@ class Summarizer():
 
     self.countupDic = {}
 
+    self.pricingList = None
+
+  def getPrice(self, length):
+    if self.pricingList == None:
+      raise ValueError("pricing list is not initialized.")
+
+    pricing_sorted = sorted(self.pricingList.items(), key=lambda x:x[0])
+    for level, price in pricing_sorted:
+
+      if length <= level:
+        return price
+    raise ValueError(f'the length [{length}] is too large.')
+
   def pushByArray(self, array):
     array.sort(reverse=True)
     for num in array:
@@ -211,23 +234,86 @@ class Summarizer():
       print("%s mm x %d" % (key, self.countupDic[key]))
 
 class PillarSummarizer(Summarizer):
+  """ 角材の出力をする
+  - 40x40、4面加工
+  0.5m 以内 110円
+  1.0m 以内 220円
+  1.5m 以内 330円
+  2.0m 以内 440円
+  """
   def __init__(self, maxLength):
     super().__init__(maxLength)
     self.pillarSide = 40
+    
+    self.pricingList = {
+      500 : 110,  # 500(mm) : 110(yen)
+      1000 : 220,
+      1500 : 330,
+      2000 : 440,
+    }
 
   def print(self):
+    total = 0
     for key in self.countupDic.keys():
-      print("%s mm x %d mm x %d mm : %d 本" % (key, self.pillarSide, self.pillarSide, self.countupDic[key]))
+      price = self.getPrice(int(key))
+      count = self.countupDic[key]
+      subtotal = price * count
+      # print("%s mm x %d mm x %d mm : %d 本" % (key, self.pillarSide, self.pillarSide, self.countupDic[key]))
+      print(f"{key} mm x {self.pillarSide} mm x {self.pillarSide} mm : {count} 本 x {price} = {subtotal}円")
+      total = total + subtotal
+    print(f"小計 : {total} 円")
+    return total
 
 class BoardSummarizer(Summarizer):
+  """ 板材の出力をする
+  - 18mm x 240mm、4面加工
+  0.5m 以内  390円
+  1.0m 以内  780円
+  1.5m 以内 1170円
+  2.0m 以内 1560円
+  """
   def __init__(self, maxLength):
     super().__init__(maxLength)
     self.boardWidth = 240
     self.boardThickness = 18
 
+    self.pricingList = {
+      500 : 390,  # 500(mm) : 110(yen)
+      1000 : 780,
+      1500 : 1170,
+      2000 : 1560,
+    }
+
   def print(self):
+    total = 0
     for key in self.countupDic.keys():
-      print("%s mm x %d mm x %d mm : %d 枚" % (key, self.boardWidth, self.boardThickness, self.countupDic[key] * 2))
+      price = self.getPrice(int(key))
+      count = self.countupDic[key]
+      subtotal = price * count
+      # print("%s mm x %d mm x %d mm : %d 枚" % (key, self.boardWidth, self.boardThickness, self.countupDic[key] * 2))
+      print(f"{key} mm x {self.boardWidth} mm x {self.boardThickness} mm : {count} 枚 x {price} = {subtotal}円")
+      total = total + subtotal
+    print(f"小計 : {total} 円")
+    return total
+
+  def push(self, material):
+    """
+    Boardは幅480mmが来たときに240mmを2枚に分けて追加する
+    """
+    chunk = material.length
+    if chunk <= 0:
+      raise ValueError('illregular length.')
+    if chunk > self.maxLength:
+      raise ValueError('over maxLength.')
+
+    # 幅480のときは2回pushする
+    if material.width == 480:
+      if sys.flags.debug: 
+        print(f"double push : {material}")
+      self.push_to_dic(chunk)
+
+    self.push_to_dic(chunk)
+
 
 class RoofSummarizer(Summarizer):
   def __init__(self, maxLength):
@@ -263,15 +349,17 @@ if __name__ == "__main__":
         fab.rounding()
         materials.append(fab)
 
-  pillarAllocator = Allocator(2000)
-  boardAllocator = BoardAllocator(2000)
-  roofAllocator = RoofAllocator(1800)
-  # pillarAllocator = PillarSummarizer(2000)
-  # boardAllocator = BoardSummarizer(2000)
-  # roofAllocator = RoofSummarizer(1800)
+  # pillarAllocator = Allocator(2000)
+  # boardAllocator = BoardAllocator(2000)
+  # roofAllocator = RoofAllocator(1800)
+  pillarAllocator = PillarSummarizer(2000)
+  boardAllocator = BoardSummarizer(2000)
+  roofAllocator = RoofSummarizer(1800)
 
   materials.sort(key=lambda x:x.length, reverse=True)
   for fab in materials:
+    if sys.flags.debug: print(fab)
+
     # allocator.push(fab)
     if isinstance(fab, Pillar):
       pillarAllocator.push(fab)
@@ -282,13 +370,23 @@ if __name__ == "__main__":
     else:
       print(fab)
 
+  total = 0
+
   print('柱パーツ')
-  pillarAllocator.print()
+  total = total + pillarAllocator.print()
+  print("\n")
 
   print('板材パーツ')
-  boardAllocator.print()
+  total = total + boardAllocator.print()
+  print("\n")
 
   print('屋根材ポリカ波板パーツ')
   roofAllocator.print()
+  print("\n")
 
+  print("金具類  1000円")
+  print("ポリカ波板  1000円")
 
+  total = total + 2000
+
+  print(f"合計 : {total} 円")
